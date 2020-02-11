@@ -162,6 +162,7 @@ public class PendingRequests {
         private static final String DURATION_KEY = "duration";
         private static final String QUALITY_KEY = "quality";
         private static final String RESULTS_KEY = "results";
+        private static final String FILESIZE_KEY = "fileSize";
 
         // Unique int used to identify this request in any Android Permission or Activity callbacks
         public int requestCode;
@@ -171,6 +172,8 @@ public class PendingRequests {
 
         // The number of pics/vids/audio clips to take (CAPTURE_IMAGE, CAPTURE_VIDEO, CAPTURE_AUDIO)
         public long limit = 1;
+
+        public long fileSize = 4*1024*1024*1024;
 
         // Optional max duration of recording in seconds (CAPTURE_VIDEO only)
         public int duration = 0;
@@ -192,6 +195,7 @@ public class PendingRequests {
                 this.limit = options.optLong("limit", 1);
                 this.duration = options.optInt("duration", 0);
                 this.quality = options.optInt("quality", 1);
+                this.fileSize = options.optLong("fileSize", 1);
             }
 
             this.requestCode = incrementCurrentReqId();
@@ -204,6 +208,7 @@ public class PendingRequests {
             this.limit = bundle.getLong(LIMIT_KEY);
             this.duration = bundle.getInt(DURATION_KEY);
             this.quality = bundle.getInt(QUALITY_KEY);
+            this.fileSize = bundle.getLong(FILESIZE_KEY);
 
             try {
                 this.results = new JSONArray(bundle.getString(RESULTS_KEY));
@@ -221,6 +226,7 @@ public class PendingRequests {
             bundle.putInt(DURATION_KEY, this.duration);
             bundle.putInt(QUALITY_KEY, this.quality);
             bundle.putString(RESULTS_KEY, this.results.toString());
+            bundle.putLong(FILESIZE_KEY, this.fileSize);
 
             return bundle;
         }
